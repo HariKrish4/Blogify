@@ -14,13 +14,24 @@
     "tailwindcss": "^4.1.17"
   },
   "devDependencies": {
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.0",
     "@types/node": "^24.10.0",
     "@types/react": "^19.2.2",
-    "typescript": "^5.9.3"
+    "@vitejs/plugin-react": "^5.1.1",
+    "@vitest/ui": "^4.0.14",
+    "jsdom": "^27.2.0",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.14"
   },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "test": "vitest",
+    "test:watch": "vitest --watch",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest --coverage"
   }
 }
