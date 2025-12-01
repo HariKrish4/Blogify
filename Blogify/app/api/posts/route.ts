@@ -1,17 +1,27 @@
 import { NextResponse } from 'next/server';
-import { posts, BlogPost } from '../../../lib/posts';
+import { prisma } from '../../../lib/db';
 
 export async function GET() {
-  return NextResponse.json(posts);
+  try {
+    const posts = await prisma.blogPost.findMany({
+      orderBy: { createdAt: 'desc' },
+    });
+    return NextResponse.json(posts);
+  } catch (error) {
+    return NextResponse.json(
+      { error: 'Failed to fetch posts' },
+      { status: 500 }
+    );
+  }
 }
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    
+
     // Validate required fields
     const { title, content, author } = body;
-    
+
     if (!title || !content || !author) {
       return NextResponse.json(
         { error: 'Missing required fields: title, content, and author are required' },
@@ -27,21 +37,15 @@ export async function POST(request: Request) {
       );
     }
 
-    // Generate unique ID (simple approach using timestamp + random)
-    const newId = `${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
-    
-    // Create new blog post
-    const newPost: BlogPost = {
-      id: newId,
-      title: title.trim(),
-      content: content.trim(),
-      author: author.trim(),
-      createdAt: new Date().toISOString(),
-    };
-    
-    // Add to posts array (in-memory)
-    posts.push(newPost);
-    
+    // Create new blog post in database
+    const newPost = await prisma.blogPost.create({
+      data: {
+        title: title.trim(),
+        content: content.trim(),
+        author: author.trim(),
+      },
+    });
+
     return NextResponse.json(newPost, { status: 201 });
   } catch (error) {
     return NextResponse.json(

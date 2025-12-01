@@ -4,7 +4,9 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
+    "@prisma/client": "6",
     "@tailwindcss/postcss": "^4.1.17",
+    "@vercel/postgres": "^0.10.0",
     "autoprefixer": "^10.4.22",
     "date-fns": "^4.1.0",
     "next": "^16.0.1",
@@ -22,6 +24,8 @@
     "@vitejs/plugin-react": "^5.1.1",
     "@vitest/ui": "^4.0.14",
     "jsdom": "^27.2.0",
+    "prisma": "6",
+    "tsx": "^4.21.0",
     "typescript": "^5.9.3",
     "vitest": "^4.0.14"
   },
@@ -32,6 +36,7 @@
     "test": "vitest",
     "test:watch": "vitest --watch",
     "test:ui": "vitest --ui",
-    "test:coverage": "vitest --coverage"
+    "test:coverage": "vitest --coverage",
+    "seed": "tsx --tsconfig tsconfig.seed.json prisma/seed.ts"
   }
 }

@@ -1,4 +1,4 @@
-import { posts } from '@/lib/posts';
+import { prisma } from '@/lib/db';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(
@@ -8,7 +8,9 @@ export async function GET(
   try {
     const { id } = await params;
 
-    const post = posts.find((post) => post.id === id);
+    const post = await prisma.blogPost.findUnique({
+      where: { id },
+    });
 
     if (!post) {
       return NextResponse.json({ message: "Post not found" }, { status: 404 });
